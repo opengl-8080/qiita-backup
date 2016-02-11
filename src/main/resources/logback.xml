@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE logback>
+<configuration>
+  <property name="format" value="[%-5level] %date %-15logger{15} - %m%n" />
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>sample.log</file>
+    <encoder>
+      <pattern>${format}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${format}</pattern>
+    </encoder>
+  </appender>
+  
+  <logger name="gl8080" level="debug">
+  </logger>
+
+  <root level="warn">
+    <appender-ref ref="CONSOLE" />
+  </root>
+</configuration>

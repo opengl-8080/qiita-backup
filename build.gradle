@@ -36,8 +36,8 @@ dependencies {
     // * use jpa
     // compile 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // compile 'org.eclipse.collections:eclipse-collections:7.0.0'
     // compile 'org.apache.commons:commons-lang3:3.4'
+    // compile 'org.eclipse.collections:eclipse-collections:7.0.0'
 
     // testCompile 'org.jmockit:jmockit:1.21'
     testCompile 'junit:junit:4.12'
