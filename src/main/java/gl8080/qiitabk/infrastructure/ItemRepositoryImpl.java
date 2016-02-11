@@ -17,20 +17,23 @@ import org.springframework.util.DigestUtils;
 
 import gl8080.qiitabk.domain.Item;
 import gl8080.qiitabk.domain.ItemRepository;
+import gl8080.qiitabk.util.DefaultQualifier;
 import gl8080.qiitabk.util.FileNameNormalizer;
 import gl8080.qiitabk.util.FileRotation;
 
 @Component
+@DefaultQualifier
 public class ItemRepositoryImpl implements ItemRepository {
     private static final Logger logger = LoggerFactory.getLogger(ItemRepositoryImpl.class);
 
+    private static final boolean SAVED = true;
     private static final int MAX_ROTATE_NUMBER = 5;
     
     @Value("${save.dir}")
     private File saveDir;
     
     @Override
-    public void save(Item item) {
+    public boolean save(Item item) {
         String fileName = FileNameNormalizer.normalize(item.getTitle());
         logger.debug("file name = {}", fileName);
         
@@ -42,12 +45,15 @@ public class ItemRepositoryImpl implements ItemRepository {
                 if (!this.areSameContents(saveFile, item)) {
                     this.rotateFile(saveFile);
                     this.saveFile(item, saveFile);
+                    return SAVED;
                 } else {
                     logger.debug("hash are same.");
+                    return !SAVED;
                 }
             } else {
                 logger.debug("local file dosen't exists.");
                 this.saveFile(item, saveFile);
+                return SAVED;
             }
         } catch (IOException e) {
             throw new UncheckedIOException("ファイルの保存に失敗しました。", e);

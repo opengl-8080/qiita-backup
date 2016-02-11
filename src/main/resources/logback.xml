@@ -3,23 +3,29 @@
 <configuration>
   <property name="format" value="[%-5level] %date %-15logger{15} - %m%n" />
 
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>sample.log</file>
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>log/qiita-backup.log</file>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>log/%d{yyyyMM,aux}/qiita-backup-%d{yyyyMMdd}.log</fileNamePattern>
+      <maxHistory>90</maxHistory>
+    </rollingPolicy>
+    
     <encoder>
-      <pattern>${format}</pattern>
+      <pattern>${format}%ex{full}</pattern>
     </encoder>
   </appender>
 
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>${format}</pattern>
+      <pattern>${format}%ex{0}</pattern>
     </encoder>
   </appender>
   
-  <logger name="gl8080" level="info">
-  </logger>
+  <logger name="gl8080" level="info" />
 
   <root level="warn">
     <appender-ref ref="CONSOLE" />
+    <appender-ref ref="FILE" />
   </root>
 </configuration>

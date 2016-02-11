@@ -12,6 +12,7 @@ import gl8080.qiitabk.domain.Item;
 import gl8080.qiitabk.domain.ItemList;
 import gl8080.qiitabk.domain.ItemRepository;
 import gl8080.qiitabk.domain.Qiita;
+import gl8080.qiitabk.util.DefaultQualifier;
 
 @SpringBootApplication
 public class QiitaBackupMain {
@@ -26,24 +27,32 @@ public class QiitaBackupMain {
         }
     }
     
-    @Autowired
+    @Autowired @DefaultQualifier
     private ItemRepository repository;
     
     @Autowired
     private Qiita qiita;
     
     private void execute() {
-        ItemList itemList = this.qiita.getItemList();
+        ResultReport report = new ResultReport();
         
-        while (itemList.hasNext()) {
-            String title = null;
-            try {
+        try {
+            ItemList itemList = this.qiita.getItemList();
+            while (itemList.hasNext()) {
+                report.total();
+                
                 Item item = itemList.next();
-                title = item.getTitle();
-                this.repository.save(item);
-            } catch (Exception e) {
-                logger.error(title + " の処理中にエラーが発生しました。", e);
+                try {
+                    if (this.repository.save(item)) {
+                        report.save();
+                    }
+                } catch (Exception e) {
+                    logger.error(item.getTitle() + " の処理中にエラーが発生しました。", e);
+                    report.error();
+                }
             }
+        } finally {
+            report.print();
         }
     }
 }
