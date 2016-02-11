@@ -22,7 +22,7 @@
     </encoder>
   </appender>
   
-  <logger name="gl8080" level="info" />
+  <logger name="gl8080" level="${LOG_LEVEL:-info}" />
 
   <root level="warn">
     <appender-ref ref="CONSOLE" />
