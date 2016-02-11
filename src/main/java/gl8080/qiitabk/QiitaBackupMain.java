@@ -49,6 +49,8 @@ public class QiitaBackupMain {
                 } catch (Exception e) {
                     logger.error(item.getTitle() + " の処理中にエラーが発生しました。", e);
                     report.error();
+                } finally {
+                    report.progress();
                 }
             }
         } finally {
