@@ -19,7 +19,7 @@ public class QiitaBackupMain {
         app.setBannerMode(Banner.Mode.OFF);
         
         try (ConfigurableApplicationContext ctx = app.run(args)) {
-            ctx.getBean(QiitaBackupMain.class).test();
+            ctx.getBean(QiitaBackupMain.class).execute();
         }
     }
     
@@ -29,10 +29,10 @@ public class QiitaBackupMain {
     @Autowired
     private Qiita qiita;
     
-    private void test() {
+    private void execute() {
         ItemList itemList = this.qiita.getItemList();
         
-        if (itemList.hasNext()) {
+        while (itemList.hasNext()) {
             Item item = itemList.next();
             this.repository.save(item);
         }

@@ -17,7 +17,7 @@ public class ItemListImpl implements ItemList {
     private static final Logger logger = LoggerFactory.getLogger(ItemListImpl.class);
     
     private List<Item> items = new ArrayList<>();
-    private static final int PER_PAGE = 5;
+    private static final int PER_PAGE = 100;
     private int page = 0;
     
     @Override
