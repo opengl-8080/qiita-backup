@@ -39,13 +39,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             File saveFile = new File(this.saveDir, fileName + ".md");
             
             if (saveFile.exists() && saveFile.isFile()) {
-                byte[] localHash;
-                try (InputStream in = new FileInputStream(saveFile)) {
-                    localHash = DigestUtils.md5Digest(in);
-                }
-                byte[] downloadHash = DigestUtils.md5Digest(item.getText().getBytes());
-                
-                if (!Arrays.equals(localHash, downloadHash)) {
+                if (!this.areSameContents(saveFile, item)) {
                     this.rotateFile(saveFile);
                     this.saveFile(item, saveFile);
                 } else {
@@ -57,6 +51,21 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
         } catch (IOException e) {
             throw new UncheckedIOException("ファイルの保存に失敗しました。", e);
+        }
+    }
+    
+    private boolean areSameContents(File file, Item item) {
+        byte[] localHash = this.getHash(file);
+        byte[] downloadHash = DigestUtils.md5Digest(item.getText().getBytes());
+        
+        return Arrays.equals(localHash, downloadHash);
+    }
+    
+    private byte[] getHash(File file) {
+        try (InputStream in = new FileInputStream(file)) {
+            return DigestUtils.md5Digest(in);
+        } catch (IOException e) {
+            throw new UncheckedIOException("ハッシュの取得に失敗しました。", e);
         }
     }
 
