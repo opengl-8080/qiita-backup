@@ -6,3 +6,4 @@ build/
 bin/
 qiita-token
 /tmp
+/backup/

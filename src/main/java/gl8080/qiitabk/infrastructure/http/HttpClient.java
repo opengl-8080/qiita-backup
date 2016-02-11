@@ -8,7 +8,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class HttpClient {
+    private static final Logger logger = LoggerFactory.getLogger(HttpClient.class);
     
     private String url;
     private String method;
@@ -47,6 +51,7 @@ public class HttpClient {
                 con.setRequestProperty(key, String.valueOf(value));
             });
             
+            logger.debug("connect to {}", this.url);
             con.connect();
             
             return new HttpResponse(con);
