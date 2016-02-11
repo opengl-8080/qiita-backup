@@ -34,7 +34,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     
     @Override
     public boolean save(Item item) {
-        String fileName = FileNameNormalizer.normalize(item.getTitle());
+        String fileName = FileNameNormalizer.normalize(item.getTitle() + "_" + item.getId());
         logger.debug("file name = {}", fileName);
         
         try {
@@ -62,7 +62,12 @@ public class ItemRepositoryImpl implements ItemRepository {
     
     private boolean areSameContents(File file, Item item) {
         byte[] localHash = this.getHash(file);
-        byte[] downloadHash = DigestUtils.md5Digest(item.getText().getBytes());
+        byte[] downloadHash = DigestUtils.md5Digest(item.getText().getBytes(StandardCharsets.UTF_8));
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("local = " + DigestUtils.md5DigestAsHex(localHash));
+            logger.debug("download = " + DigestUtils.md5DigestAsHex(downloadHash));
+        }
         
         return Arrays.equals(localHash, downloadHash);
     }
