@@ -1,15 +1,15 @@
-package boot;
+package gl8080.qiitabk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class TemplateMain {
+public class QiitaBackupMain {
     
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext ctx = SpringApplication.run(TemplateMain.class, args)) {
-            System.out.println("Hello Spring Boot!!");
+        try (ConfigurableApplicationContext ctx = SpringApplication.run(QiitaBackupMain.class, args)) {
+            
         }
     }
 }
