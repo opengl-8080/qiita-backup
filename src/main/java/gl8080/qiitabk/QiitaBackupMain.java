@@ -1,5 +1,7 @@
 package gl8080.qiitabk;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +15,7 @@ import gl8080.qiitabk.domain.Qiita;
 
 @SpringBootApplication
 public class QiitaBackupMain {
+    private static final Logger logger = LoggerFactory.getLogger(QiitaBackupMain.class);
     
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(QiitaBackupMain.class);
@@ -33,8 +36,14 @@ public class QiitaBackupMain {
         ItemList itemList = this.qiita.getItemList();
         
         while (itemList.hasNext()) {
-            Item item = itemList.next();
-            this.repository.save(item);
+            String title = null;
+            try {
+                Item item = itemList.next();
+                title = item.getTitle();
+                this.repository.save(item);
+            } catch (Exception e) {
+                logger.error(title + " の処理中にエラーが発生しました。", e);
+            }
         }
     }
 }
