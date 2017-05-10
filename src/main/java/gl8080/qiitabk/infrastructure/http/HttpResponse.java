@@ -2,6 +2,7 @@ package gl8080.qiitabk.infrastructure.http;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,14 @@ public class HttpResponse {
             return IOUtils.toString(in, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new UncheckedIOException("レスポンスの取得に失敗しました。", e);
+        }
+    }
+    
+    public void copyTo(OutputStream out) {
+        try (InputStream in = this.con.getInputStream()) {
+            IOUtils.copy(in, out);
+        } catch (IOException e) {
+            throw new UncheckedIOException("レスポンスの取得に失敗しました", e);
         }
     }
 }

@@ -1,6 +1,10 @@
 package gl8080.qiitabk.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -53,5 +57,21 @@ public class Item {
     @Override
     public int hashCode() {
         return this.id.hashCode();
+    }
+
+    
+    private static final Pattern IMAGE_PATTERN = Pattern.compile("!\\[[^]]*]\\(([^)]+)\\)");
+    
+    public List<Image> getImageList() {
+        Matcher matcher = IMAGE_PATTERN.matcher(this.text);
+
+        List<Image> list = new ArrayList<>();
+        
+        while (matcher.find()) {
+            String url = matcher.group(1);
+            list.add(new Image(url));
+        }
+        
+        return list;
     }
 }

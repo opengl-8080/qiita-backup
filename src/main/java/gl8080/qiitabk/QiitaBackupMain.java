@@ -1,5 +1,6 @@
 package gl8080.qiitabk;
 
+import gl8080.qiitabk.domain.SaveImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class QiitaBackupMain {
     
     @Autowired
     private Qiita qiita;
+    @Autowired
+    private SaveImageService saveImageService;
     
     private void execute() {
         ResultReport report = new ResultReport();
@@ -44,6 +47,7 @@ public class QiitaBackupMain {
                 Item item = itemList.next();
                 try {
                     if (this.repository.save(item)) {
+                        this.saveImageService.saveImages(item);
                         report.save();
                     }
                 } catch (Exception e) {
