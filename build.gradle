@@ -9,7 +9,6 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'spring-boot'
-apply plugin: 'eclipse'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -35,10 +34,6 @@ dependencies {
 
 jar {
     baseName = projectName
-}
-
-eclipse {
-    project.name = projectName
 }
 
 task wrapper(type: Wrapper) {
