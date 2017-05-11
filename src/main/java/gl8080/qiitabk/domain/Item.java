@@ -60,7 +60,7 @@ public class Item {
     }
 
     
-    private static final Pattern IMAGE_PATTERN = Pattern.compile("!\\[[^]]*]\\(([^)]+)\\)");
+    private static final Pattern IMAGE_PATTERN = Pattern.compile("!\\[[^]]*]\\(([^) ]+)\\)");
     
     public List<Image> getImageList() {
         Matcher matcher = IMAGE_PATTERN.matcher(this.text);
