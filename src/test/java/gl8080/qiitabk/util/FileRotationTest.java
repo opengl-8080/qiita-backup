@@ -1,9 +1,8 @@
 package gl8080.qiitabk.util;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,25 +11,22 @@ import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class FileRotationTest {
-    
-    @Rule
-    public TemporaryFolder tmp = new TemporaryFolder();
+class FileRotationTest {
 
     private static final String CURRENT_FILE_NAME = "test.txt";
     private static final String ANY_TEXT = "test message file content";
     private FileRotation rotate = new FileRotation();
-    private File root;
+    @TempDir
+    File root;
     
-    @Before
-    public void setup() {
-        root = tmp.getRoot();
+    @BeforeEach
+    void setup() {
         rotate.setDirectory(root);
         rotate.setCurrentFileName(CURRENT_FILE_NAME);
     }
     
     @Test
-    public void 現在のファイルが次のファイルにリネームされること() throws Exception{
+    void 現在のファイルが次のファイルにリネームされること() throws Exception{
         // setup
         File currentFile = writeCurrentFile();
         
@@ -50,7 +46,7 @@ public class FileRotationTest {
     }
     
     @Test
-    public void 現在のファイルが存在しない場合はなにもしない() throws Exception{
+    void 現在のファイルが存在しない場合はなにもしない() throws Exception{
         // exercise
         rotate.rotate();
         
@@ -59,7 +55,7 @@ public class FileRotationTest {
     }
     
     @Test
-    public void ローテーション後のファイルはあるが_現在のファイルが存在しない場合もなにもしない() throws Exception{
+    void ローテーション後のファイルはあるが_現在のファイルが存在しない場合もなにもしない() throws Exception{
         // setup
         File rotatedFile = writeRotatedFile(1);
         
@@ -71,7 +67,7 @@ public class FileRotationTest {
     }
     
     @Test
-    public void ローテーション済みのファイルが存在する場合は_それらのファイルもリネームされること() throws Exception{
+    void ローテーション済みのファイルが存在する場合は_それらのファイルもリネームされること() throws Exception{
         // setup
         File currentFile = writeCurrentFile("current");
         File rotatedFile1 = writeRotatedFile(1, "first");
@@ -88,7 +84,7 @@ public class FileRotationTest {
     }
     
     @Test
-    public void ローテーション後のファイル数が閾値を超えている場合は_閾値を超えているファイルが全て削除されること() throws Exception{
+    void ローテーション後のファイル数が閾値を超えている場合は_閾値を超えているファイルが全て削除されること() throws Exception{
         // setup
         rotate.setMaxRotateNumber(3);
         

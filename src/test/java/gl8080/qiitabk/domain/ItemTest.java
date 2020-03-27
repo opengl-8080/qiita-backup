@@ -1,17 +1,16 @@
 package gl8080.qiitabk.domain;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class ItemTest {
-    
-    private final String URL_BASE = "https://qiita-image-store.s3.amazonaws.com/0/28302/";
+class ItemTest {
+    private static final String URL_BASE = "https://qiita-image-store.s3.amazonaws.com/0/28302/";
     
     @Test
-    public void text内の画像を全て取得できる() throws Exception {
+    void text内の画像を全て取得できる() throws Exception {
         // setup
         String text =
                 "![hoge](" + URL_BASE + "image1.jpeg)\n" +

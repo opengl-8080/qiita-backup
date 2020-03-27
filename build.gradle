@@ -8,6 +8,7 @@ apply plugin: "io.spring.dependency-management"
 sourceCompatibility = 11
 targetCompatibility = 11
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:deprecation"]
 
 ext {
     projectName = 'qiita-backup'
@@ -22,9 +23,12 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.3'
     implementation 'commons-io:commons-io:2.6'
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'de.bechte.junit:junit-hierarchicalcontextrunner:4.12.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.1'
     testImplementation 'org.assertj:assertj-core:3.15.0'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 jar {
@@ -33,4 +37,3 @@ jar {
 
 bootJar.mustRunAfter clean
 
-[compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:deprecation"]

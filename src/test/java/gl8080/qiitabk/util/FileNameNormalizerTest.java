@@ -1,13 +1,13 @@
 package gl8080.qiitabk.util;
 
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.*;
 
-import org.junit.Test;
-
-public class FileNameNormalizerTest {
+class FileNameNormalizerTest {
 
     @Test
-    public void Windowsで使用できない文字は_全て半角アンダーバーに変換される() {
+    void Windowsで使用できない文字は_全て半角アンダーバーに変換される() {
         // exercise
         String normalized = FileNameNormalizer.normalize("\\/:*?\"<>|");
         
@@ -16,7 +16,7 @@ public class FileNameNormalizerTest {
     }
 
     @Test
-    public void 使用できる文字は変換されないこと() {
+    void 使用できる文字は変換されないこと() {
         // exercise
         String normalized = FileNameNormalizer.normalize("!#$%&'()=~-^@`[{+;}],._ ");
         

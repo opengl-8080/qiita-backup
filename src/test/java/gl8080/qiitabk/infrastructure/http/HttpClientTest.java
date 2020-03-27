@@ -1,16 +1,16 @@
 package gl8080.qiitabk.infrastructure.http;
 
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.*;
 
-import org.junit.Test;
-
-public class HttpClientTest {
+class HttpClientTest {
     
     private static final String URL = "http://xxx/yyy";
     private HttpClient client = new HttpClient();
     
     @Test
-    public void クエリがURLに追加される() {
+    void クエリがURLに追加される() {
         // setup
         client.url(URL).query("foo", 123).query("bar", 456);
         
@@ -22,7 +22,7 @@ public class HttpClientTest {
     }
     
     @Test
-    public void URLにすでにクエリがある場合() {
+    void URLにすでにクエリがある場合() {
         // setup
         client.url(URL + "?foo=123").query("bar", 456);
         

@@ -1,40 +1,34 @@
 package gl8080.qiitabk.infrastructure;
 
-import static org.assertj.core.api.Assertions.*;
+import gl8080.qiitabk.infrastructure.qiita.QiitaApiToken;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static org.assertj.core.api.Assertions.*;
 
-import gl8080.qiitabk.infrastructure.qiita.QiitaApiToken;
-
-public class QiitaApiTokenTest {
-    
-    @Rule
-    public TemporaryFolder tmpFolder = new TemporaryFolder();
-    
-    private Path tokenFile;
+class QiitaApiTokenTest {
     
     private static final String TOKEN = "xyzabc123";
+
+    @TempDir
+    File tmpFolder;
     
-    @Before
-    public void createTokenFile() throws Exception {
-        File root = tmpFolder.getRoot();
-        tokenFile = new File(root, "qiita-token").toPath();
+    @BeforeEach
+    void createTokenFile() throws Exception {
+        Path tokenFile = new File(tmpFolder, "qiita-token").toPath();
         Files.writeString(tokenFile, TOKEN, StandardCharsets.UTF_8);
         
-        System.setProperty("user.dir", root.getAbsolutePath());
+        System.setProperty("user.dir", tmpFolder.getAbsolutePath());
     }
     
     @Test
-    public void カレントフォルダのqiita_tokenというファイルの内容をトークンとして取得する() {
+    void カレントフォルダのqiita_tokenというファイルの内容をトークンとして取得する() {
         // setup
         QiitaApiToken token = new QiitaApiToken();
         
