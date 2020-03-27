@@ -30,8 +30,9 @@ test {
     useJUnitPlatform()
 }
 
-jar {
+bootJar {
     archiveBaseName = projectName
+    archiveVersion = "2.0.0"
 }
 
 bootJar.mustRunAfter clean

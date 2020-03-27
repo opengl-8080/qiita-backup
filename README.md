@@ -5,7 +5,7 @@ Qiita に上げてる自分の記事をローカルにバックアップする�
 Windows でしか確認してない。  
 （ファイル名の扱いとかが、 linux とかだとあやしいかも）
 
-JDK 8 以上が必要。
+JDK 11 以上が必要。
 
 # 使い方
 ## ビルドする
@@ -13,7 +13,7 @@ JDK 8 以上が必要。
 > gradlew build
 ```
 
-`build/libs` の下に `qiita-backup.jar` が出力される。
+`build/libs` の下に `qiita-backup-X.X.X.jar` が出力される。
 
 ## Qiita API のトークンを発行する
 
@@ -27,16 +27,16 @@ JDK 8 以上が必要。
 中身に、先ほど発行したトークンをコピペする。  
 （末尾は改行なしで、トークンのみにすること）
 
-作成したら、 `qiita-backup.jar` と同じフォルダに `qiita-token` を配置する。
+作成したら、 `qiita-backup-X.X.X.jar` と同じフォルダに `qiita-token` を配置する。
 
 ```
-|-qiita-backup.jar
+|-qiita-backup-X.X.X.jar
 `-qiita-token
 ```
 
 ## 実行する
 ```
-> java -jar qiita-backup.jar
+> java -jar qiita-backup-X.X.X.jar
 ```
 
 トークンを使って認証して、ユーザーが投稿した全ての記事をローカルに保存する。
@@ -45,7 +45,7 @@ JDK 8 以上が必要。
 
 # 保存先を変更する
 ```
-> java -jar qiita-backup.jar --save.dir=path/to/save/dir
+> java -jar qiita-backup-X.X.X.jar --save.dir=path/to/save/dir
 ```
 
 `--save.dir` を引数で指定することで、ファイルの保存先を指定できる。
@@ -59,3 +59,10 @@ JDK 8 以上が必要。
 このとき、ローカルのファイルは最大 5 世代前までローテーションされる（最新と合わせると、 1 記事につき 6 つまでローカルに保存する）。
 
 5 より古いファイルは削除される。
+
+# リリースノート
+- 2.0.0 (2020-03-27)
+    - Java 11 対応
+    - 使用しているライブラリやビルド環境を最新化
+- 1.0.0
+    - 初回リリース
