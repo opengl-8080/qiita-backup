@@ -3,6 +3,8 @@ package gl8080.qiitabk.infrastructure;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
@@ -26,7 +28,7 @@ public class QiitaApiTokenTest {
     public void createTokenFile() throws Exception {
         File root = tmpFolder.getRoot();
         tokenFile = new File(root, "qiita-token").toPath();
-        FileUtils.write(tokenFile.toFile(), TOKEN);
+        Files.writeString(tokenFile, TOKEN, StandardCharsets.UTF_8);
         
         System.setProperty("user.dir", root.getAbsolutePath());
     }

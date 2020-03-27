@@ -1,15 +1,16 @@
 package gl8080.qiitabk.util;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class FileRotationTest {
     
@@ -125,7 +126,7 @@ public class FileRotationTest {
     private static File writeFile(File dir, String fileName, String content) {
         File currentFile = new File(dir, fileName);
         try {
-            FileUtils.writeStringToFile(currentFile, content);
+            Files.writeString(currentFile.toPath(), content, StandardCharsets.UTF_8);
             return currentFile;
         } catch (IOException e) {
             throw new RuntimeException(e);
