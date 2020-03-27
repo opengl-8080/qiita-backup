@@ -1,25 +1,24 @@
 package gl8080.qiitabk.infrastructure;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-
-import org.apache.commons.io.FileUtils;
+import gl8080.qiitabk.domain.Item;
+import gl8080.qiitabk.domain.ItemRepository;
+import gl8080.qiitabk.util.DefaultQualifier;
+import gl8080.qiitabk.util.FileNameNormalizer;
+import gl8080.qiitabk.util.FileRotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
-import gl8080.qiitabk.domain.Item;
-import gl8080.qiitabk.domain.ItemRepository;
-import gl8080.qiitabk.util.DefaultQualifier;
-import gl8080.qiitabk.util.FileNameNormalizer;
-import gl8080.qiitabk.util.FileRotation;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.Arrays;
 
 @Component
 @DefaultQualifier
@@ -81,7 +80,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     private void saveFile(Item item, File saveFile) throws IOException {
-        FileUtils.writeStringToFile(saveFile, item.getText(), StandardCharsets.UTF_8);
+        Files.writeString(saveFile.toPath(), item.getText(), StandardCharsets.UTF_8);
         logger.info("{} に保存しました。", saveFile.getAbsolutePath());
     }
 

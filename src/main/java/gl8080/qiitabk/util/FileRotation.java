@@ -3,11 +3,10 @@ package gl8080.qiitabk.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import org.apache.commons.io.FileUtils;
 
 public class FileRotation {
     
@@ -117,7 +116,7 @@ public class FileRotation {
      */
     private void rename(File from, File to) {
         try {
-            FileUtils.moveFile(from, to);
+            Files.move(from.toPath(), to.toPath());
         } catch (IOException e) {
             throw new UncheckedIOException("ファイルのローテーションに失敗しました。", e);
         }

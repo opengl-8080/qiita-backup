@@ -1,16 +1,15 @@
 package gl8080.qiitabk.infrastructure.qiita;
 
-import java.util.concurrent.TimeUnit;
-
+import gl8080.qiitabk.domain.ItemList;
+import gl8080.qiitabk.domain.Qiita;
+import gl8080.qiitabk.infrastructure.ItemListImpl;
+import gl8080.qiitabk.infrastructure.http.HttpClientHelper;
+import gl8080.qiitabk.infrastructure.http.HttpResponseHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import gl8080.qiitabk.domain.ItemList;
-import gl8080.qiitabk.domain.Qiita;
-import gl8080.qiitabk.infrastructure.ItemListImpl;
-import gl8080.qiitabk.infrastructure.http.HttpClient;
-import gl8080.qiitabk.infrastructure.http.HttpResponse;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class QiitaImpl implements Qiita {
@@ -25,17 +24,16 @@ public class QiitaImpl implements Qiita {
     }
 
     public GetItemsResponse getNextItems(int page, int perPage) {
-        HttpClient client =
-                new HttpClient()
-                    .url("https://qiita.com/api/v2/authenticated_user/items")
-                    .method("GET")
+        HttpClientHelper client =
+                new HttpClientHelper("https://qiita.com/api/v2/authenticated_user/items")
+                    .GET()
                     .query("per_page", perPage)
                     .query("page", page)
                     .header("Authorization", "Bearer " + new QiitaApiToken().get());
         
         this.waitTime();
         
-        HttpResponse response = client.connect();
+        HttpResponseHelper response = client.send();
         
         lastAccessTime = System.currentTimeMillis();
         

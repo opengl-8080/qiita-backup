@@ -2,8 +2,8 @@ package gl8080.qiitabk.infrastructure;
 
 import gl8080.qiitabk.domain.Image;
 import gl8080.qiitabk.domain.ImageRepository;
-import gl8080.qiitabk.infrastructure.http.HttpClient;
-import gl8080.qiitabk.infrastructure.http.HttpResponse;
+import gl8080.qiitabk.infrastructure.http.HttpClientHelper;
+import gl8080.qiitabk.infrastructure.http.HttpResponseHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class ImageRepositoryImpl implements ImageRepository {
     @Override
     public void save(Path imagePath, Image image) {
         logger.info("downloading " + image.getFileName() + "...");
-        HttpResponse response = new HttpClient().url(image.getUrl()).method("GET").connect();
+        HttpResponseHelper response = new HttpClientHelper(image.getUrl()).GET().send();
         
         try (OutputStream out = Files.newOutputStream(imagePath)){
             response.copyTo(out);
